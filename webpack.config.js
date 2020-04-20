@@ -1,9 +1,11 @@
+const webpack = require('webpack')
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const rules = [
     {
         test: /\.tsx?/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: ['babel-loader', 'ts-loader'],
+        exclude: /node_modules/
     },
     {
         test: /\.css?/,
@@ -28,5 +30,16 @@ module.exports = {
     devServer: {
         contentBase: './src',
         port: 5000
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            '$': 'jquery',
+            'jQuery': 'jquery',
+            'window.$': 'jquery',
+            'window.jQuery': 'jquery'
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'index.html')
+        })
+    ]
 }
